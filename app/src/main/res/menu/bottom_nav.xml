@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/createPage"
+        android:id="@+id/createPageFragment"
         android:icon="@drawable/outline_add_to_photos_24"
         android:title="@string/create_nav_title" />
 
     <item
-        android:id="@+id/collectionPage"
+        android:id="@+id/collectionPageFragment"
         android:icon="@drawable/outline_auto_awesome_mosaic_24"
         android:title="@string/collection_nav_title" />
 
     <item
-        android:id="@+id/infoPage"
+        android:id="@+id/infoPageFragment"
         android:icon="@drawable/baseline_help_outline_24"
         android:title="@string/info_nav_title" />
 
     <item
-        android:id="@+id/logoutPage"
+        android:id="@+id/settingsPageFragment"
         android:icon="@drawable/outline_settings_24"
-        android:title="@string/logout_nav_title" />
+        android:title="@string/settings_nav_title" />
 </menu>

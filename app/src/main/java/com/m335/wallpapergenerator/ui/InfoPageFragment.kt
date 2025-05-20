@@ -16,6 +16,6 @@ class InfoPageFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.info_page, container, false)
+        return inflater.inflate(R.layout.info_page_fragment, container, false)
     }
 }

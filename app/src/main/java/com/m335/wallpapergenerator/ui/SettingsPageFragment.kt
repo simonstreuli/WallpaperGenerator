@@ -15,7 +15,7 @@ import com.m335.wallpapergenerator.data.ApiKeyStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class LogoutPageFragment : Fragment() {
+class SettingsPageFragment : Fragment() {
 
     private lateinit var clearApiKeyButton: AppCompatButton
     private lateinit var setApiKeyButton: AppCompatButton
@@ -24,14 +24,14 @@ class LogoutPageFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.logout_page, container, false)
+        return inflater.inflate(R.layout.fragment_settings_page, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        clearApiKeyButton = view.findViewById(R.id.logout_button_reset_apikey)
-        setApiKeyButton = view.findViewById(R.id.logout_button_set_apikey)
+        clearApiKeyButton = view.findViewById(R.id.settings_button_reset_apikey)
+        setApiKeyButton = view.findViewById(R.id.settings_button_set_apikey)
 
         clearApiKeyButton.setOnClickListener {
             lifecycleScope.launch {

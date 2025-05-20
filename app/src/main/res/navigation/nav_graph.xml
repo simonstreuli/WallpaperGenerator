@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/collectionPageFragment">
 
-    <item
-        android:id="@+id/createPage"
-        android:icon="@drawable/outline_add_to_photos_24"
-        android:title="@string/create_nav_title" />
-
-    <item
-        android:id="@+id/collectionPage"
-        android:icon="@drawable/outline_auto_awesome_mosaic_24"
-        android:title="@string/collection_nav_title" />
-
-    <item
-        android:id="@+id/infoPage"
-        android:icon="@drawable/baseline_help_outline_24"
-        android:title="@string/info_nav_title" />
-
-    <item
-        android:id="@+id/logoutPage"
-        android:icon="@drawable/outline_settings_24"
-        android:title="@string/logout_nav_title" />
-</menu>
+    <fragment
+        android:id="@+id/createPageFragment"
+        android:name="com.m335.wallpapergenerator.ui.CreatePageFragment"
+        android:label="fragment_create_page"
+        tools:layout="@layout/fragment_create_page" />
+    <fragment
+        android:id="@+id/collectionPageFragment"
+        android:name="com.m335.wallpapergenerator.ui.CollectionPageFragment"
+        android:label="fragment_library_page"
+        tools:layout="@layout/fragment_collection_page" />
+    <fragment
+        android:id="@+id/infoPageFragment"
+        android:name="com.m335.wallpapergenerator.ui.InfoPageFragment"
+        android:label="fragment_help_page"
+        tools:layout="@layout/info_page_fragment" />
+    <fragment
+        android:id="@+id/settingsPageFragment"
+        android:name="com.m335.wallpapergenerator.ui.SettingsPageFragment"
+        android:label="fragment_settings_page"
+        tools:layout="@layout/fragment_settings_page" />
+</navigation>
