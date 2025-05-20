@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WallpaperGenerator</string>
+    <string name="collection_nav_title">Collection</string>
+
 </resources>
