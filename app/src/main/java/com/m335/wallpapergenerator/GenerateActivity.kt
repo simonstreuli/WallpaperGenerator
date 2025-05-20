@@ -3,122 +3,150 @@ package com.m335.wallpapergenerator
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.m335.wallpapergenerator.data.ApiKeyStore
-import com.m335.wallpapergenerator.data.ImageStorage
-import com.m335.wallpapergenerator.services.AiService
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.first
+import com.m335.wallpapergenerator.services.DatabaseService
+import com.m335.wallpapergenerator.services.PreferenceService
+import com.m335.wallpapergenerator.services.OpenAiService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class GenerateActivity : AppCompatActivity() {
-
-    private lateinit var aiService: AiService
+    private lateinit var preferenceService: PreferenceService
+    private lateinit var openAiService: OpenAiService
+    private lateinit var databaseService: DatabaseService
+    private var isPreferenceServiceBound = false
     private var isOpenAiServiceBound = false
-
-    private lateinit var loadingTitle: TextView
-    private lateinit var loadingIcon: ImageView
-    private var loadingJob: Job? = null
+    private var isDatabaseServiceBound = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_generate)
 
-        loadingTitle = findViewById(R.id.generate_loading_title)
-        loadingIcon = findViewById(R.id.loading_icon)
-
-        // Start rotation animation (if needed manually)
-        loadingIcon.setImageResource(R.drawable.loading_animation_icon)
-
-        // Bind AI Service
-        Intent(this, AiService::class.java).also { intent ->
-            bindService(intent, aiServiceConnection, BIND_AUTO_CREATE)
+        Intent(this, PreferenceService::class.java).also { intent ->
+            this.bindService(intent, preferenceConnection, BIND_AUTO_CREATE)
         }
 
-        startLoadingAnimation()
-    }
+        Intent(this, OpenAiService::class.java).also { intent ->
+            this.bindService(intent, openAiConnection, BIND_AUTO_CREATE)
+        }
 
-    private fun startLoadingAnimation() {
-        val titles = listOf(
-            getString(R.string.generate_title1),
-            getString(R.string.generate_title2),
-            getString(R.string.generate_title3),
-            getString(R.string.generate_title4),
-            getString(R.string.generate_title5),
-            getString(R.string.generate_title6)
-        )
-
-        loadingJob = CoroutineScope(Dispatchers.Main).launch {
-            var index = 0
-            while (isActive) {
-                loadingTitle.text = titles[index]
-                index = (index + 1) % titles.size
-                delay(1500)
-            }
+        Intent(this, DatabaseService::class.java).also { intent ->
+            this.bindService(intent, databaseConnection, BIND_AUTO_CREATE)
         }
     }
 
-    private fun checkServiceAndStartGeneration() {
+    private fun checkServicesConnected() {
+        if (!isPreferenceServiceBound || !isOpenAiServiceBound || !isDatabaseServiceBound) return
+
         val isWallpaper = intent.getBooleanExtra("isWallpaper", true)
-        val description = intent.getStringExtra("description") ?: return
+        val description = intent.getStringExtra("description") as String
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val apiKey = ApiKeyStore.getApiKey(applicationContext).first()
-            val imageResponse = aiService.generateImage(apiKey, description, isWallpaper)
+        println("Wallpaper: $isWallpaper")
+        println("Description: $description")
 
-            withContext(Dispatchers.Main) {
+        GlobalScope.launch(Dispatchers.IO) {
+            val imageResponse =
+                openAiService.generateImage(preferenceService.getApiKey(), description, isWallpaper)
+            launch(Dispatchers.Main) {
                 if (imageResponse == null) {
-                    showToast("Verbindung fehlgeschlagen.")
-                    finishWithCancel()
+                    Toast.makeText(this@GenerateActivity, "Check your connection.", Toast.LENGTH_LONG)
+                        .show()
+                    setResult(RESULT_CANCELED)
+                    finish()
                 } else if (imageResponse.successful) {
-                    ImageStorage.saveImage(applicationContext, imageResponse.url, description)
-                    showToast("Bild erfolgreich generiert!")
-                    finishWithSuccess()
+                    println("GENERATED IMAGE RESULT: ${imageResponse.url}")
+                    databaseService.saveImage(imageResponse.url, description)
+                    setResult(RESULT_OK)
+                    finish()
                 } else {
-                    showToast(imageResponse.url)
-                    finishWithCancel()
+                    Toast.makeText(this@GenerateActivity, imageResponse.url, Toast.LENGTH_LONG)
+                        .show()
+                    setResult(RESULT_CANCELED)
+                    finish()
                 }
             }
         }
     }
 
-    private val aiServiceConnection = object : ServiceConnection {
+    override fun onStart() {
+        super.onStart()
+        val titles = ArrayList<String>()
+        titles.add(resources.getString(R.string.generate_title1))
+        titles.add(resources.getString(R.string.generate_title2))
+        titles.add(resources.getString(R.string.generate_title3))
+        titles.add(resources.getString(R.string.generate_title4))
+        titles.add(resources.getString(R.string.generate_title5))
+        titles.add(resources.getString(R.string.generate_title6))
+
+        // TODO: show the user that something is happening
+//        val loadingTitle = findViewById<TextView>(R.id.generate_loading_title)
+//        var index = 1
+//        GlobalScope.launch(Dispatchers.IO) {
+//            for(i in 1..20){
+//                delay(1500)
+//                loadingTitle.text = titles[index]
+//                index++
+//                if(index == titles.size) index = 0
+//            }
+//        }
+    }
+
+    private val preferenceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            val binder = service as AiService.LocalBinder
-            aiService = binder.getService()
-            isOpenAiServiceBound = true
-            checkServiceAndStartGeneration()
+            val binder = service as PreferenceService.LocalBinder
+            preferenceService = binder.getService()
+            isPreferenceServiceBound = true
+            checkServicesConnected()
         }
 
-        override fun onServiceDisconnected(name: ComponentName?) {
+        override fun onServiceDisconnected(arg0: ComponentName) {
+            isPreferenceServiceBound = false
+        }
+    }
+
+    private val databaseConnection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName, service: IBinder) {
+            val binder = service as DatabaseService.LocalBinder
+            databaseService = binder.getService()
+            isDatabaseServiceBound = true
+            checkServicesConnected()
+        }
+
+        override fun onServiceDisconnected(arg0: ComponentName) {
+            isDatabaseServiceBound = false
+        }
+    }
+
+    private val openAiConnection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName, service: IBinder) {
+            val binder = service as OpenAiService.LocalBinder
+            openAiService = binder.getService()
+            isOpenAiServiceBound = true
+            checkServicesConnected()
+        }
+
+        override fun onServiceDisconnected(arg0: ComponentName) {
             isOpenAiServiceBound = false
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        loadingJob?.cancel()
+        if (isPreferenceServiceBound) {
+            this.unbindService(preferenceConnection)
+            isPreferenceServiceBound = false
+        }
         if (isOpenAiServiceBound) {
-            unbindService(aiServiceConnection)
+            this.unbindService(openAiConnection)
             isOpenAiServiceBound = false
         }
-    }
-
-    private fun finishWithSuccess() {
-        setResult(RESULT_OK)
-        finish()
-    }
-
-    private fun finishWithCancel() {
-        setResult(RESULT_CANCELED)
-        finish()
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        if (isDatabaseServiceBound) {
+            this.unbindService(databaseConnection)
+            isDatabaseServiceBound = false
+        }
     }
 }

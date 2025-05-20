@@ -5,17 +5,14 @@
         android:id="@+id/createPageFragment"
         android:icon="@drawable/outline_add_to_photos_24"
         android:title="@string/create_nav_title" />
-
     <item
-        android:id="@+id/collectionPageFragment"
+        android:id="@+id/libraryPageFragment"
         android:icon="@drawable/outline_auto_awesome_mosaic_24"
-        android:title="@string/collection_nav_title" />
-
+        android:title="@string/library_nav_title" />
     <item
-        android:id="@+id/infoPageFragment"
+        android:id="@+id/helpPageFragment"
         android:icon="@drawable/baseline_help_outline_24"
-        android:title="@string/info_nav_title" />
-
+        android:title="@string/help_nav_title" />
     <item
         android:id="@+id/settingsPageFragment"
         android:icon="@drawable/outline_settings_24"

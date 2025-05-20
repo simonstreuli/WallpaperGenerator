@@ -3,68 +3,80 @@ package com.m335.wallpapergenerator
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.m335.wallpapergenerator.data.ApiKeyStore
-import com.m335.wallpapergenerator.services.AiService
-import kotlinx.coroutines.DelicateCoroutinesApi
+import com.m335.wallpapergenerator.services.PreferenceService
+import com.m335.wallpapergenerator.services.OpenAiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
-
-    private lateinit var aiService: AiService
-    private var isAiServiceBound = false
+    private lateinit var preferenceService: PreferenceService
+    private lateinit var openAiService: OpenAiService
+    private var isDatabaseServiceBound = false
+    private var isOpenAiServiceBound = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        Intent(this, AiService::class.java).also { intent ->
+        Intent(this, PreferenceService::class.java).also { intent ->
+            this.bindService(intent, databaseConnection, BIND_AUTO_CREATE)
+        }
+
+        Intent(this, OpenAiService::class.java).also { intent ->
             this.bindService(intent, openAiConnection, BIND_AUTO_CREATE)
+        }
+    }
+
+    private val databaseConnection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName, service: IBinder) {
+            val binder = service as PreferenceService.LocalBinder
+            preferenceService = binder.getService()
+            isDatabaseServiceBound = true
+        }
+
+        override fun onServiceDisconnected(arg0: ComponentName) {
+            isDatabaseServiceBound = false
         }
     }
 
     private val openAiConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            val binder = service as AiService.LocalBinder
-            aiService = binder.getService()
-            isAiServiceBound = true
+            val binder = service as OpenAiService.LocalBinder
+            openAiService = binder.getService()
+            isOpenAiServiceBound = true
         }
 
         override fun onServiceDisconnected(arg0: ComponentName) {
-            isAiServiceBound = false
+            isOpenAiServiceBound = false
         }
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     fun onButtonContinue(view: View) {
         val editField = findViewById<EditText>(R.id.input_text_apikey)
         val apiKey = editField.text.toString().trim()
 
         if (apiKey.isEmpty()) {
-            showToast("Bitte gib einen API Key ein.")
+            showToast("Please enter an API Key before continuing.")
             return
         }
 
         GlobalScope.launch(Dispatchers.IO) {
-            val isValidKey = aiService.verifyApiKey(apiKey)
+            val isValidKey = openAiService.verifyApiKey(apiKey)
             launch(Dispatchers.Main) {
                 if (isValidKey) {
-                    // Speichere API Key mit DataStore
-                    launch(Dispatchers.IO) {
-                        ApiKeyStore.setApiKey(this@LoginActivity, apiKey)
-                    }
+                    preferenceService.setApiKey(apiKey)
                     setResult(RESULT_OK)
-                    showToast("Erfolgreich verbunden!")
+                    showToast("Success!")
                     finish()
                 } else {
-                    showToast(aiService.getErrorString())
+                    showToast(openAiService.getErrorString())
                 }
             }
         }
@@ -77,9 +89,13 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (isAiServiceBound) {
+        if (isDatabaseServiceBound) {
+            this.unbindService(databaseConnection)
+            isDatabaseServiceBound = false
+        }
+        if (isOpenAiServiceBound) {
             this.unbindService(openAiConnection)
-            isAiServiceBound = false
+            isOpenAiServiceBound = false
         }
     }
 

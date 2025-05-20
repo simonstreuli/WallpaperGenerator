@@ -7,7 +7,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.m335.wallpapergenerator.services.AiService
+import com.m335.wallpapergenerator.services.DatabaseService
+import com.m335.wallpapergenerator.services.PreferenceService
+import com.m335.wallpapergenerator.services.OpenAiService
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -16,14 +18,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         navController = navHostFragment.navController
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.setupWithNavController(navController)
 
-        val aiServiceIntent = Intent(this, AiService::class.java)
-        startService(aiServiceIntent)
+        val preferenceServiceIntent = Intent(this, PreferenceService::class.java)
+        startService(preferenceServiceIntent)
+
+        val databaseServiceIntent = Intent(this, DatabaseService::class.java)
+        startService(databaseServiceIntent)
+
+        val openAiServiceIntent = Intent(this, OpenAiService::class.java)
+        startService(openAiServiceIntent)
     }
 }

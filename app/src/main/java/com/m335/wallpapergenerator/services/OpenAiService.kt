@@ -1,9 +1,10 @@
 package com.m335.wallpapergenerator.services
+
 import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
-import com.m335.wallpapergenerator.services.models.ResponseModel
+import com.m335.wallpapergenerator.services.models.ImageResponseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -13,12 +14,12 @@ import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-class AiService : Service() {
+class OpenAiService : Service() {
     private val binder = LocalBinder()
     private var errorString = ""
 
     inner class LocalBinder : Binder() {
-        fun getService(): AiService = this@AiService
+        fun getService(): OpenAiService = this@OpenAiService
     }
 
     override fun onBind(intent: Intent): IBinder {
@@ -37,6 +38,7 @@ class AiService : Service() {
             val response = withContext(Dispatchers.IO) {
                 client.newCall(request).execute()
             }
+            // TODO: Use debug logger
             println("Response: $response")
 
             if (response.isSuccessful) {
@@ -51,7 +53,7 @@ class AiService : Service() {
         }
     }
 
-    suspend fun generateImage(apiKey: String, description: String, isWallpaper: Boolean): ResponseModel? {
+    suspend fun generateImage(apiKey: String, description: String, isWallpaper: Boolean): ImageResponseModel? {
         val client = OkHttpClient.Builder()
             .readTimeout(120, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
@@ -78,19 +80,19 @@ class AiService : Service() {
                 client.newCall(request).execute()
             }
 
-            val responseBody = response.body?.string() ?: return ResponseModel("Error: Empty response", description, false)
+            val responseBody = response.body?.string() ?: return ImageResponseModel("Error: Empty response", description, false)
             val jsonObject = JSONObject(responseBody)
             val dataArray = jsonObject.getJSONArray("data")
 
             if (dataArray.length() > 0) {
                 val firstItem = dataArray.getJSONObject(0)
                 val url = firstItem.getString("url")
-                ResponseModel(url, description, true)
+                ImageResponseModel(url, description, true)
             } else {
-                ResponseModel("Error: No data in response", description, false)
+                ImageResponseModel("Error: No data in response", description, false)
             }
         } catch (e: IOException) {
-            ResponseModel("Something went wrong: ${e.message}", description, false)
+            ImageResponseModel("Something went wrong: ${e.message}", description, false)
         }
     }
 
