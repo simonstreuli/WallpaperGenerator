@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.m335.wallpapergenerator.data.ApiKeyStore
 import com.m335.wallpapergenerator.services.AiService
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -41,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     fun onButtonContinue(view: View) {
         val editField = findViewById<EditText>(R.id.input_text_apikey)
         val apiKey = editField.text.toString().trim()
