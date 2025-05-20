@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.glide)
     implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.security.crypto)

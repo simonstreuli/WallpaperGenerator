@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        Intent(this, aiService::class.java).also { intent ->
+        Intent(this, AiService::class.java).also { intent ->
             this.bindService(intent, openAiConnection, BIND_AUTO_CREATE)
         }
     }

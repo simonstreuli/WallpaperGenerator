@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:startDestination="@id/createPage">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <fragment
+    <item
         android:id="@+id/createPage"
-        android:name="GenerateActivity"
-        android:label="@string/create_nav_title" />
+        android:icon="@drawable/outline_add_to_photos_24"
+        android:title="@string/create_nav_title" />
 
-    <fragment
+    <item
         android:id="@+id/collectionPage"
-        android:name="com.m335.wallpapergenerator.ui.CollectionFragment"
-        android:label="@string/collection_nav_title" />
+        android:icon="@drawable/outline_auto_awesome_mosaic_24"
+        android:title="@string/collection_nav_title" />
 
-    <fragment
+    <item
         android:id="@+id/infoPage"
-        android:name="com.m335.wallpapergenerator.ui.InfoFragment"
-        android:label="@string/info_nav_title" />
+        android:icon="@drawable/baseline_help_outline_24"
+        android:title="@string/info_nav_title" />
 
-    <fragment
+    <item
         android:id="@+id/logoutPage"
-        android:name="com.m335.wallpapergenerator.ui.LogoutFragment"
-        android:label="@string/logout_nav_title" />
-</navigation>
+        android:icon="@drawable/outline_settings_24"
+        android:title="@string/logout_nav_title" />
+</menu>

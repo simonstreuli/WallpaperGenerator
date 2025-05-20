@@ -1,11 +1,13 @@
 package com.m335.wallpapergenerator
 
-import android.os.Bundle
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.m335.wallpapergenerator.services.AiService
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -14,12 +16,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.setupWithNavController(navController)
 
+        val aiServiceIntent = Intent(this, AiService::class.java)
+        startService(aiServiceIntent)
     }
 }
