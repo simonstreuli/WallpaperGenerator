@@ -10,6 +10,7 @@ material = "1.12.0"
 navigationRuntimeAndroid = "2.9.0"
 navigationFragment = "2.9.0"
 okhttp = "4.12.0"
+compiler = "3.2.0-alpha11"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -21,6 +22,9 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-navigation-runtime-android = { group = "androidx.navigation", name = "navigation-runtime-android", version.ref = "navigationRuntimeAndroid" }
 androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+androidx-compiler = { group = "androidx.databinding", name = "compiler", version.ref = "compiler" }
+androidx-security-crypto = { module = "androidx.security:security-crypto", version = "1.1.0-alpha07" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version = "1.0.0" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
