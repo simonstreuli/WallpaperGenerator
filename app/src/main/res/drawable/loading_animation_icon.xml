@@ -1,36 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="100dp"
-    android:height="100dp"
-    android:viewportWidth="100"
-    android:viewportHeight="100">
-
-    <group
-        android:translateX="20"
-        android:translateY="50">
-        <path
-            android:fillColor="#2460EB"
-            android:pathData="M 0 -6 C 3.31370849898 -6 6 -3.31370849898 6 0 C 6 3.31370849898 3.31370849898 6 0 6 C -3.31370849898 6 -6 3.31370849898 -6 0 C -6 -3.31370849898 -3.31370849898 -6 0 -6 Z" />
-    </group>
-    <group
-        android:translateX="40"
-        android:translateY="50">
-        <path
-            android:fillColor="#2460EB"
-            android:pathData="M 0 -6 C 3.31370849898 -6 6 -3.31370849898 6 0 C 6 3.31370849898 3.31370849898 6 0 6 C -3.31370849898 6 -6 3.31370849898 -6 0 C -6 -3.31370849898 -3.31370849898 -6 0 -6 Z" />
-    </group>
-    <group
-        android:translateX="60"
-        android:translateY="50">
-        <path
-            android:fillColor="#2460EB"
-            android:pathData="M 0 -6 C 3.31370849898 -6 6 -3.31370849898 6 0 C 6 3.31370849898 3.31370849898 6 0 6 C -3.31370849898 6 -6 3.31370849898 -6 0 C -6 -3.31370849898 -3.31370849898 -6 0 -6 Z" />
-    </group>
-    <group
-        android:translateX="80"
-        android:translateY="50">
-        <path
-            android:fillColor="#2460EB"
-            android:pathData="M 0 -6 C 3.31370849898 -6 6 -3.31370849898 6 0 C 6 3.31370849898 3.31370849898 6 0 6 C -3.31370849898 6 -6 3.31370849898 -6 0 C -6 -3.31370849898 -3.31370849898 -6 0 -6 Z" />
-    </group>
-</vector>
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_loading"
+    android:fromDegrees="0"
+    android:toDegrees="360"
+    android:pivotX="50%"
+    android:pivotY="50%"
+    android:duration="1000"
+    android:repeatCount="infinite" />
