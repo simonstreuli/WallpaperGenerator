@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/collectionPage">
+    app:startDestination="@id/createPage">
 
+    <fragment
+        android:id="@+id/createPage"
+        android:name="GenerateActivity"
+        android:label="@string/create_nav_title" />
 
+    <fragment
+        android:id="@+id/collectionPage"
+        android:name="com.m335.wallpapergenerator.ui.CollectionFragment"
+        android:label="@string/collection_nav_title" />
+
+    <fragment
+        android:id="@+id/infoPage"
+        android:name="com.m335.wallpapergenerator.ui.InfoFragment"
+        android:label="@string/info_nav_title" />
+
+    <fragment
+        android:id="@+id/logoutPage"
+        android:name="com.m335.wallpapergenerator.ui.LogoutFragment"
+        android:label="@string/logout_nav_title" />
 </navigation>
