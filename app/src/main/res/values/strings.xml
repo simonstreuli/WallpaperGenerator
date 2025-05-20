@@ -1,5 +1,60 @@
 <resources>
     <string name="app_name">WallpaperGenerator</string>
-    <string name="collection_nav_title">Collection</string>
+    <string name="logo_alt">WallpaperGenerator-Logo</string>
 
+    <!-- ImageView Activity -->
+    <string name="imageview_template_description">Deine Bildbeschreibung</string>
+    <string name="imageview_template_content_description">Wallpaper-/Widget-Bild</string>
+    <string name="imageview_button_set_wallpaper">Als Hintergrund festlegen</string>
+    <string name="imageview_button_back">Zurück zur Sammlung</string>
+
+    <!-- Generate Activity -->
+    <string name="generate_title1">Pixel werden gezaubert…</string>
+    <string name="generate_title2">Gedulde dich, Picasso…</string>
+    <string name="generate_title3">Kunst entsteht…</string>
+    <string name="generate_title4">Algorithmen malen…</string>
+    <string name="generate_title5">Träume werden gestaltet…</string>
+    <string name="generate_title6">Szenen werden erschaffen…</string>
+    <string name="generate_loading_icon_alt">Ladesymbol</string>
+
+    <string name="collection_nav_title">Sammlung</string>
+    <string name="collection_title">Sammlung</string>
+    <string name="collection_templates_title">Vorlagen</string>
+    <string name="collection_templates_placeholder">Vorlagen-Wallpaper werden hier angezeigt.</string>
+    <string name="collection_wallpaper_title">Deine Wallpaper</string>
+    <string name="collection_wallpaper_placeholder">Deine erstellten Wallpaper erscheinen hier.</string>
+    <string name="collection_widget_title">Deine Widgets</string>
+    <string name="collection_widget_placeholder">Bald verfügbar!</string>
+
+    <!-- Create Fragment -->
+    <string name="create_nav_title">Erstellen</string>
+    <string name="create_title">Wallpaper erstellen</string>
+    <string name="create_input_title">Was inspiriert dich?</string>
+    <string name="create_input_description">Beschreibe dein gewünschtes Wallpaper so gut wie möglich. Die KI übernimmt den Rest.</string>
+    <string name="create_button_wallpaper">Wallpaper generieren</string>
+
+    <string name="logout_nav_title">Logout</string>
+    <string name="logout_title">Logout</string>
+    <string name="logout_button_reset_apikey">API-Schlüssel löschen</string>
+    <string name="logout_button_set_apikey">Mit API-Schlüssel anmelden</string>
+
+
+    <string name="info_nav_title">Info</string>
+    <string name="info_title">Info</string>
+    <string name="info_question1">Was ist ein API-Schlüssel?</string>
+    <string name="info_question1_answer">Ein API-Schlüssel identifiziert dich bei OpenAI und bestätigt deine Berechtigung, den Dienst zu nutzen. Diese App benötigt deinen API-Schlüssel, um KI-Bilder zu generieren.</string>
+    <string name="info_question2">Kann ich Bilder ohne API-Schlüssel generieren?</string>
+    <string name="info_question2_answer">Nein, leider nicht. Du musst einen gültigen API-Schlüssel eingeben, um Bilder mit der KI zu generieren.</string>
+    <string name="info_question3">Ich habe ein Widget erstellt – wie kann ich es nutzen?</string>
+    <string name="info_question3_answer">Gehe zum Startbildschirm, halte ihn gedrückt und wähle „Widgets hinzufügen“. Das Widget von WallpaperGenerator sollte dort erscheinen.</string>
+
+    <!-- Login Activity -->
+    <string name="login_welcome_title">Willkommen bei WallpaperGenerator!</string>
+    <string name="login_welcome_text">Damit WallpaperGenerator funktioniert, wird dein API-Schlüssel von OpenAI benötigt, um Hintergrundbilder zu generieren. Du benötigst ein aktives ChatGPT Plus-Abo.</string>
+    <string name="login_welcome_button_more">Mehr erfahren</string>
+    <string name="login_input_title_apikey">API-Schlüssel</string>
+    <string name="login_input_description_apikey">Gib hier deinen OpenAI API-Schlüssel ein und klicke anschliessend auf „Weiter“.</string>
+    <string name="login_button_continue">Weiter</string>
+    <string name="login_button_skip">Ohne API Key weiterfahren</string>
+    <string name="create_button_widget">Erstellen</string>
 </resources>

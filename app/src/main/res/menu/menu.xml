@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
-        android:id="@+id/collectionPageFragment"
+        android:id="@+id/createPage"
+        android:icon="@drawable/outline_add_to_photos_24"
+        android:title="@string/create_nav_title" />
+    <item
+        android:id="@+id/collectionPage"
         android:icon="@drawable/outline_auto_awesome_mosaic_24"
         android:title="@string/collection_nav_title" />
+    <item
+        android:id="@+id/infoPage"
+        android:icon="@drawable/baseline_help_outline_24"
+        android:title="@string/info_nav_title" />
+    <item
+        android:id="@+id/logutPage"
+        android:icon="@drawable/outline_settings_24"
+        android:title="@string/logout_nav_title" />
 </menu>
