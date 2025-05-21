@@ -55,4 +55,7 @@
     <string name="login_input_description_apikey">Gib deinen OpenAI API-Schlüssel ein und klicke unten auf Weiter.</string>
     <string name="login_button_continue">Weiter</string>
     <string name="login_button_skip">Ohne API Key fortfahren</string>
+    <string name="nav_title_template">Template</string>
+    <string name="imageview_button_back">Zurück zur Sammlung</string>
+    <string name="template_page_title">Vorinstallierte Vorlagen</string>
 </resources>

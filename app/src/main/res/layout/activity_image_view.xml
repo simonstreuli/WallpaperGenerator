@@ -112,6 +112,19 @@
                 android:text="@string/imageview_button_delete"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/imageview_button_back"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="50dp"
+                android:background="@drawable/button_background"
+                android:backgroundTint="@color/gray"
+                android:onClick="onButtonBackToLibrary"
+                android:text="@string/imageview_button_back"
+                android:textAllCaps="false"
+                android:textColor="@color/black" />
         </LinearLayout>
     </ScrollView>
 

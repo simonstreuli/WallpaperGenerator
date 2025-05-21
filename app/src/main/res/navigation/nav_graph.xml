@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/libraryPageFragment">
+    app:startDestination="@id/collectionPageFragment">
 
     <fragment
         android:id="@+id/createPageFragment"
@@ -11,10 +11,15 @@
         android:label="fragment_create_page"
         tools:layout="@layout/fragment_create_page" />
     <fragment
-        android:id="@+id/libraryPageFragment"
+        android:id="@+id/collectionPageFragment"
         android:name="com.m335.wallpapergenerator.pages.CollectionPageFragment"
-        android:label="fragment_library_page"
+        android:label="fragment_collection_page"
         tools:layout="@layout/fragment_collection_page" />
+    <fragment
+        android:id="@+id/templatePageFragment"
+        android:name="com.m335.wallpapergenerator.pages.TemplatePageFragment"
+        android:label="fragment_template_page"
+        tools:layout="@layout/fragment_template_page" />
     <fragment
         android:id="@+id/helpPageFragment"
         android:name="com.m335.wallpapergenerator.pages.HelpPageFragment"

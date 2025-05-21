@@ -31,25 +31,6 @@
                 android:textAlignment="center"
                 android:layout_marginBottom="24dp" />
 
-            <!-- Templates Section -->
-            <TextView
-                android:id="@+id/library_templates_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/library_templates_title"
-                android:textSize="20sp"
-                android:textAlignment="center"
-                android:layout_marginBottom="12dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/library_templates"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                android:overScrollMode="never"
-                android:scrollbars="none"
-                android:layout_marginBottom="24dp" />
-
             <!-- Wallpapers Section -->
             <TextView
                 android:id="@+id/library_wallpaper_title"

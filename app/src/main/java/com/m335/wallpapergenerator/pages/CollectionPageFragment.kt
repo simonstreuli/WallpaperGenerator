@@ -60,16 +60,6 @@ class CollectionPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val templates = hashMapOf(
-            "https://cdn.midjourney.com/639e3bbe-84a5-47a8-a4a3-9ec4c376f1d7/0_3.webp" to "black ink illustration of empress...",
-            "https://cdn.midjourney.com/213483d2-0cab-4514-b245-b400ad8e1e71/0_3.webp" to "breathtakingly beautiful scene...",
-            "https://cdn.midjourney.com/9d6de1eb-be8a-4fd2-b01f-226bd759cce1/0_2.webp" to "Epic ink bending shot..."
-        )
-
-        val templateRecycler = view.findViewById<RecyclerView>(R.id.library_templates)
-        templateRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
-        templateRecycler.adapter = TemplateAdapter(requireContext(), templates.toList())
     }
 
 

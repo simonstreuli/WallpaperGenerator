@@ -6,9 +6,13 @@
         android:icon="@drawable/outline_add_to_photos_24"
         android:title="@string/create_nav_title" />
     <item
-        android:id="@+id/libraryPageFragment"
+        android:id="@+id/collectionPageFragment"
         android:icon="@drawable/outline_auto_awesome_mosaic_24"
         android:title="@string/library_nav_title" />
+    <item
+        android:id="@+id/templatePageFragment"
+        android:icon="@drawable/outline_auto_awesome_mosaic_24"
+        android:title="@string/nav_title_template" />
     <item
         android:id="@+id/helpPageFragment"
         android:icon="@drawable/baseline_help_outline_24"

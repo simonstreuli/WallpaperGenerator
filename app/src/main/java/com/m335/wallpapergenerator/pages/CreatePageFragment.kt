@@ -31,14 +31,14 @@ class CreatePageFragment : Fragment() {
     private val loginActivityResultListener =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_CANCELED) {
-                navController.navigate(R.id.libraryPageFragment)
+                navController.navigate(R.id.collectionPageFragment)
             }
         }
 
     private val generateActivityResultListener =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                navController.navigate(R.id.libraryPageFragment)
+                navController.navigate(R.id.collectionPageFragment)
                 view?.findViewById<EditText>(R.id.create_input_imagination)?.text?.clear()
             } else {
                 Toast.makeText(requireActivity(), "The generation was cancelled or crashed unexpectedly.", Toast.LENGTH_SHORT)
