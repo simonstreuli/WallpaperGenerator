@@ -3,21 +3,22 @@ package com.m335.wallpapergenerator
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
-import android.view.View
+import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
-import com.m335.wallpapergenerator.services.PreferenceService
-import com.m335.wallpapergenerator.services.OpenAiService
+import androidx.appcompat.app.AppCompatActivity
+import com.m335.wallpapergenerator.services.SettingsService
+import com.m335.wallpapergenerator.services.AiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var preferenceService: PreferenceService
-    private lateinit var openAiService: OpenAiService
+    private lateinit var settingsService: SettingsService
+    private lateinit var aiService: AiService
     private var isDatabaseServiceBound = false
     private var isOpenAiServiceBound = false
 
@@ -25,19 +26,27 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        Intent(this, PreferenceService::class.java).also { intent ->
-            this.bindService(intent, databaseConnection, BIND_AUTO_CREATE)
+        findViewById<Button>(R.id.login_button_continue).setOnClickListener {
+            onButtonContinue()
+        }
+        findViewById<TextView>(R.id.login_button_skip).setOnClickListener {
+            onButtonSkip()
         }
 
-        Intent(this, OpenAiService::class.java).also { intent ->
-            this.bindService(intent, openAiConnection, BIND_AUTO_CREATE)
+        // Services binden
+        Intent(this, SettingsService::class.java).also { intent ->
+            bindService(intent, databaseConnection, BIND_AUTO_CREATE)
+        }
+
+        Intent(this, AiService::class.java).also { intent ->
+            bindService(intent, openAiConnection, BIND_AUTO_CREATE)
         }
     }
 
     private val databaseConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            val binder = service as PreferenceService.LocalBinder
-            preferenceService = binder.getService()
+            val binder = service as SettingsService.LocalBinder
+            settingsService = binder.getService()
             isDatabaseServiceBound = true
         }
 
@@ -48,8 +57,8 @@ class LoginActivity : AppCompatActivity() {
 
     private val openAiConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            val binder = service as OpenAiService.LocalBinder
-            openAiService = binder.getService()
+            val binder = service as AiService.LocalBinder
+            aiService = binder.getService()
             isOpenAiServiceBound = true
         }
 
@@ -58,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun onButtonContinue(view: View) {
+    private fun onButtonContinue() {
         val editField = findViewById<EditText>(R.id.input_text_apikey)
         val apiKey = editField.text.toString().trim()
 
@@ -67,22 +76,30 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
+        if (!isOpenAiServiceBound) {
+            showToast("OpenAI Service not ready yet. Please try again.")
+            return
+        }
+
+        showToast("Trying API Key...")
+
         GlobalScope.launch(Dispatchers.IO) {
-            val isValidKey = openAiService.verifyApiKey(apiKey)
+            val isValidKey = aiService.verifyApiKey(apiKey)
             launch(Dispatchers.Main) {
                 if (isValidKey) {
-                    preferenceService.setApiKey(apiKey)
+                    settingsService.setApiKey(apiKey)
                     setResult(RESULT_OK)
                     showToast("Success!")
                     finish()
                 } else {
-                    showToast(openAiService.getErrorString())
+                    showToast(aiService.getErrorString())
                 }
             }
         }
     }
 
-    fun onButtonSkip(view: View) {
+
+    private fun onButtonSkip() {
         setResult(RESULT_CANCELED)
         finish()
     }
@@ -90,11 +107,11 @@ class LoginActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         if (isDatabaseServiceBound) {
-            this.unbindService(databaseConnection)
+            unbindService(databaseConnection)
             isDatabaseServiceBound = false
         }
         if (isOpenAiServiceBound) {
-            this.unbindService(openAiConnection)
+            unbindService(openAiConnection)
             isOpenAiServiceBound = false
         }
     }

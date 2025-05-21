@@ -3,10 +3,10 @@
     <string name="logo_alt">WallpaperGenerator Logo</string>
 
     <!-- ImageView Activity -->
-    <string name="imageview_template_description">Beschreibung. Lorem</string>
-    <string name="imageview_template_content_description">Hintergrund-/Widget-Bild</string>
+    <string name="imageview_template_description">Beschreibung</string>
+    <string name="imageview_template_content_description">Hintergrund</string>
     <string name="imageview_button_set_wallpaper">Als Hintergrund setzen</string>
-    <string name="imageview_button_back">Löschen</string>
+    <string name="imageview_button_delete">Löschen</string>
 
     <!-- Generate Activity -->
     <string name="generate_title1">Bild Generierung gestartet...</string>
@@ -24,16 +24,12 @@
     <string name="library_templates_placeholder">Hier erscheinen deine Vorlagen.</string>
     <string name="library_wallpaper_title">Deine Hintergrundbilder</string>
     <string name="library_wallpaper_placeholder">Hier erscheinen deine generierten Hintergrundbilder.</string>
-    <string name="library_widget_title">Deine Widgets</string>
-    <string name="library_widget_placeholder">Bald verfügbar!</string>
-
     <!-- Create Fragment -->
     <string name="create_nav_title">Erstellen</string>
     <string name="create_title">Wallpaper generieren</string>
     <string name="create_input_title">Eingabe</string>
     <string name="create_input_description">Beschreibe das Bild, das du erstellen willst.</string>
     <string name="create_button_wallpaper">Generieren</string>
-    <string name="create_button_widget">Erstellen</string>
 
     <!-- Settings Fragment -->
     <string name="settings_nav_title">Logout</string>
@@ -48,8 +44,8 @@
     <string name="help_question1_answer">Ein API-Schlüssel identifiziert dich bei OpenAI und bestätigt deine Berechtigung, den Dienst zu nutzen. Diese App benötigt deinen API-Schlüssel, um KI-Bilder zu generieren.</string>
     <string name="help_question2">Kann ich Bilder ohne API-Schlüssel generieren?</string>
     <string name="help_question2_answer">Nein, leider nicht. Du musst einen gültigen API-Schlüssel eingeben, um Bilder mit der KI zu generieren.</string>
-    <string name="help_question3">Ich habe ein Widget erstellt – wie kann ich es nutzen?</string>
-    <string name="help_question3_answer">Gehe zum Startbildschirm, halte ihn gedrückt und wähle „Widgets hinzufügen“. Das Widget von WallpaperGenerator sollte dort erscheinen.</string>
+    <string name="help_question3">Kontakt</string>
+    <string name="help_question3_answer">Simon Streuli</string>
 
     <!-- Login Activity -->
     <string name="login_welcome_title">Willkommen bei WallpaperGenerator</string>

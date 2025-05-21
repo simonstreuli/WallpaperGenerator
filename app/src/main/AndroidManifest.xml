@@ -22,8 +22,8 @@
             android:name=".GenerateActivity"
             android:exported="false" />
 
-        <service android:name=".services.OpenAiService" />
-        <service android:name=".services.PreferenceService" />
+        <service android:name=".services.AiService" />
+        <service android:name=".services.SettingsService" />
         <service android:name=".services.DatabaseService" />
 
         <activity

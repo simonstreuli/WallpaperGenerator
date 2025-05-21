@@ -10,7 +10,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import androidx.core.content.edit
 
-class PreferenceService : Service() {
+class SettingsService : Service() {
     private val binder = LocalBinder()
 
     companion object {
@@ -18,7 +18,7 @@ class PreferenceService : Service() {
     }
 
     inner class LocalBinder : Binder() {
-        fun getService(): PreferenceService = this@PreferenceService
+        fun getService(): SettingsService = this@SettingsService
     }
 
     override fun onBind(intent: Intent): IBinder {

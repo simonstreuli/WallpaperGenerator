@@ -8,8 +8,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.m335.wallpapergenerator.services.DatabaseService
-import com.m335.wallpapergenerator.services.PreferenceService
-import com.m335.wallpapergenerator.services.OpenAiService
+import com.m335.wallpapergenerator.services.SettingsService
+import com.m335.wallpapergenerator.services.AiService
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -25,13 +25,13 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.setupWithNavController(navController)
 
-        val preferenceServiceIntent = Intent(this, PreferenceService::class.java)
-        startService(preferenceServiceIntent)
+        val settingsServiceIntent = Intent(this, SettingsService::class.java)
+        startService(settingsServiceIntent)
 
         val databaseServiceIntent = Intent(this, DatabaseService::class.java)
         startService(databaseServiceIntent)
 
-        val openAiServiceIntent = Intent(this, OpenAiService::class.java)
-        startService(openAiServiceIntent)
+        val aiServiceIntent = Intent(this, AiService::class.java)
+        startService(aiServiceIntent)
     }
 }

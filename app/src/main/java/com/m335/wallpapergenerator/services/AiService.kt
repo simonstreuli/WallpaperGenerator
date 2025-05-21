@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
+import android.util.Log
 import com.m335.wallpapergenerator.services.models.ImageResponseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -14,12 +15,12 @@ import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-class OpenAiService : Service() {
+class AiService : Service() {
     private val binder = LocalBinder()
     private var errorString = ""
 
     inner class LocalBinder : Binder() {
-        fun getService(): OpenAiService = this@OpenAiService
+        fun getService(): AiService = this@AiService
     }
 
     override fun onBind(intent: Intent): IBinder {
@@ -34,24 +35,34 @@ class OpenAiService : Service() {
             .addHeader("Authorization", "Bearer $apiKey")
             .build()
 
+        println("DEBUG: Starting API Key verification...")
+        println("DEBUG: Using API Key: ${apiKey.take(5)}...") // nur ersten 5 Zeichen zur Sicherheit
+        Log.d("verifyApiKey", "Sending request to OpenAI...")
+
         return try {
             val response = withContext(Dispatchers.IO) {
                 client.newCall(request).execute()
             }
-            // TODO: Use debug logger
-            println("Response: $response")
+
+            Log.d("verifyApiKey", "HTTP response code: ${response.code}")
+            Log.d("verifyApiKey", "Response message: ${response.message}")
+            println("DEBUG: Response successful: ${response.isSuccessful}")
 
             if (response.isSuccessful) {
+                Log.d("verifyApiKey", "API key is valid.")
                 true
             } else {
                 errorString = "Invalid API Key"
+                Log.e("verifyApiKey", "API Key invalid. Body: ${response.body?.string()}")
                 false
             }
         } catch (e: IOException) {
-            errorString = "Check internet connection?"
+            errorString = "Error verifying Key"
+            Log.e("verifyApiKey", "Exception during request: ${e.message}", e)
             false
         }
     }
+
 
     suspend fun generateImage(apiKey: String, description: String, isWallpaper: Boolean): ImageResponseModel? {
         val client = OkHttpClient.Builder()

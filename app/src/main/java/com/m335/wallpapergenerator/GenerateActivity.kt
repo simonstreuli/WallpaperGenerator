@@ -8,15 +8,16 @@ import android.os.Bundle
 import android.os.IBinder
 import android.widget.Toast
 import com.m335.wallpapergenerator.services.DatabaseService
-import com.m335.wallpapergenerator.services.PreferenceService
-import com.m335.wallpapergenerator.services.OpenAiService
+import com.m335.wallpapergenerator.services.SettingsService
+import com.m335.wallpapergenerator.services.AiService
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class GenerateActivity : AppCompatActivity() {
-    private lateinit var preferenceService: PreferenceService
-    private lateinit var openAiService: OpenAiService
+    private lateinit var settingsService: SettingsService
+    private lateinit var aiService: AiService
     private lateinit var databaseService: DatabaseService
     private var isPreferenceServiceBound = false
     private var isOpenAiServiceBound = false
@@ -26,11 +27,11 @@ class GenerateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_generate)
 
-        Intent(this, PreferenceService::class.java).also { intent ->
+        Intent(this, SettingsService::class.java).also { intent ->
             this.bindService(intent, preferenceConnection, BIND_AUTO_CREATE)
         }
 
-        Intent(this, OpenAiService::class.java).also { intent ->
+        Intent(this, AiService::class.java).also { intent ->
             this.bindService(intent, openAiConnection, BIND_AUTO_CREATE)
         }
 
@@ -39,6 +40,7 @@ class GenerateActivity : AppCompatActivity() {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun checkServicesConnected() {
         if (!isPreferenceServiceBound || !isOpenAiServiceBound || !isDatabaseServiceBound) return
 
@@ -50,7 +52,7 @@ class GenerateActivity : AppCompatActivity() {
 
         GlobalScope.launch(Dispatchers.IO) {
             val imageResponse =
-                openAiService.generateImage(preferenceService.getApiKey(), description, isWallpaper)
+                aiService.generateImage(settingsService.getApiKey(), description, isWallpaper)
             launch(Dispatchers.Main) {
                 if (imageResponse == null) {
                     Toast.makeText(this@GenerateActivity, "Check your connection.", Toast.LENGTH_LONG)
@@ -97,8 +99,8 @@ class GenerateActivity : AppCompatActivity() {
 
     private val preferenceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            val binder = service as PreferenceService.LocalBinder
-            preferenceService = binder.getService()
+            val binder = service as SettingsService.LocalBinder
+            settingsService = binder.getService()
             isPreferenceServiceBound = true
             checkServicesConnected()
         }
@@ -123,8 +125,8 @@ class GenerateActivity : AppCompatActivity() {
 
     private val openAiConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            val binder = service as OpenAiService.LocalBinder
-            openAiService = binder.getService()
+            val binder = service as AiService.LocalBinder
+            aiService = binder.getService()
             isOpenAiServiceBound = true
             checkServicesConnected()
         }

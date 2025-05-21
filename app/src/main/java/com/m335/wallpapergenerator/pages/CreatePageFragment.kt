@@ -20,12 +20,12 @@ import androidx.navigation.findNavController
 import com.m335.wallpapergenerator.GenerateActivity
 import com.m335.wallpapergenerator.LoginActivity
 import com.m335.wallpapergenerator.R
-import com.m335.wallpapergenerator.services.PreferenceService
+import com.m335.wallpapergenerator.services.SettingsService
 
 
 class CreatePageFragment : Fragment() {
     private lateinit var navController: NavController
-    private lateinit var preferenceService: PreferenceService
+    private lateinit var settingsService: SettingsService
     private var isBound = false
 
     private val loginActivityResultListener =
@@ -58,17 +58,11 @@ class CreatePageFragment : Fragment() {
         navController = view.findNavController()
 
         val generateWallpaperButton = view.findViewById<AppCompatButton>(R.id.create_button_wallpaper)
-        val generateWidgetButton = view.findViewById<AppCompatButton>(R.id.create_button_widget)
         val inputImageImagination = view.findViewById<EditText>(R.id.create_input_imagination)
 
         generateWallpaperButton.setOnClickListener {
             if(validateImaginationInputText(inputImageImagination.text.toString())) {
                 startGenerationActivity(inputImageImagination, true)
-            }
-        }
-        generateWidgetButton.setOnClickListener {
-            if(validateImaginationInputText(inputImageImagination.text.toString())) {
-                startGenerationActivity(inputImageImagination, false)
             }
         }
     }
@@ -98,8 +92,8 @@ class CreatePageFragment : Fragment() {
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            val binder = service as PreferenceService.LocalBinder
-            preferenceService = binder.getService()
+            val binder = service as SettingsService.LocalBinder
+            settingsService = binder.getService()
             isBound = true
         }
 
@@ -111,7 +105,7 @@ class CreatePageFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        if (isBound && !preferenceService.hasApiKey()) {
+        if (isBound && !settingsService.hasApiKey()) {
             val intent = Intent(requireActivity(), LoginActivity::class.java)
             loginActivityResultListener.launch(intent)
         }
@@ -119,7 +113,7 @@ class CreatePageFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        Intent(context, PreferenceService::class.java).also { intent ->
+        Intent(context, SettingsService::class.java).also { intent ->
             context?.bindService(intent, connection, Context.BIND_AUTO_CREATE)
         }
     }
