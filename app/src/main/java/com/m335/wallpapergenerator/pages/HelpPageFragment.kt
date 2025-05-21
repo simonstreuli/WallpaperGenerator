@@ -16,6 +16,6 @@ class HelpPageFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_help_page, container, false)
+        return inflater.inflate(R.layout.fragment_info_page, container, false)
     }
 }
