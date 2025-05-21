@@ -1,4 +1,4 @@
-package com.m335.wallpapergenerator.pages
+package com.m335.wallpapergenerator.ui
 
 import android.content.ComponentName
 import android.content.Context

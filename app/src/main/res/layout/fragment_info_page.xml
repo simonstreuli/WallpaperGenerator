@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
-    tools:context="com.m335.wallpapergenerator.pages.HelpPageFragment">
+    tools:context="com.m335.wallpapergenerator.ui.HelpPageFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Überschrift -->
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
@@ -73,7 +72,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Box 2 -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
