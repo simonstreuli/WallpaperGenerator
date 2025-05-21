@@ -79,7 +79,7 @@ class CollectionPageFragment : Fragment() {
                     .load(uri)
                     .placeholder(R.drawable.baseline_image_24)
                     .error(R.drawable.baseline_image_not_supported_24)
-                    .into(this)
+                        .into(this)
 
                 setOnClickListener {
                     startImageViewActivity(uri, description)

@@ -9,13 +9,7 @@
     <string name="imageview_button_delete">Löschen</string>
 
     <!-- Generate Activity -->
-    <string name="generate_title1">Bild Generierung gestartet...</string>
-    <string name="generate_title2">KI erstellt dein Bild...</string>
-    <string name="generate_title3">Einen Moment Geduld...</string>
-    <string name="generate_title4">Das dauert nicht lange...</string>
-    <string name="generate_title5">Fast fertig...</string>
-    <string name="generate_title6">Kreativität entfaltet sich...</string>
-    <string name="generate_loading_icon_alt">Ladesymbol</string>
+    <string name="generate_title">Bild Generierung gestartet...</string>
 
     <!-- Library Fragment -->
     <string name="library_nav_title">Sammlung</string>
@@ -55,7 +49,7 @@
     <string name="login_input_description_apikey">Gib deinen OpenAI API-Schlüssel ein und klicke unten auf Weiter.</string>
     <string name="login_button_continue">Weiter</string>
     <string name="login_button_skip">Ohne API Key fortfahren</string>
-    <string name="nav_title_template">Template</string>
+    <string name="nav_title_template">Vorlagen</string>
     <string name="imageview_button_back">Zurück zur Sammlung</string>
     <string name="template_page_title">Vorinstallierte Vorlagen</string>
 </resources>

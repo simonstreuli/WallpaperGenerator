@@ -6,6 +6,8 @@ import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import com.m335.wallpapergenerator.services.DatabaseService
 import com.m335.wallpapergenerator.services.SettingsService
@@ -76,26 +78,16 @@ class GenerateActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val titles = ArrayList<String>()
-        titles.add(resources.getString(R.string.generate_title1))
-        titles.add(resources.getString(R.string.generate_title2))
-        titles.add(resources.getString(R.string.generate_title3))
-        titles.add(resources.getString(R.string.generate_title4))
-        titles.add(resources.getString(R.string.generate_title5))
-        titles.add(resources.getString(R.string.generate_title6))
 
-        // TODO: show the user that something is happening
-//        val loadingTitle = findViewById<TextView>(R.id.generate_loading_title)
-//        var index = 1
-//        GlobalScope.launch(Dispatchers.IO) {
-//            for(i in 1..20){
-//                delay(1500)
-//                loadingTitle.text = titles[index]
-//                index++
-//                if(index == titles.size) index = 0
-//            }
-//        }
+        val title = getString(R.string.generate_title);
+
+        findViewById<TextView>(R.id.generate_loading_title).text = title
+
+        val spinner = findViewById<ImageView>(R.id.generate_loading_icon)
+        val animation = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.rotate_anim)
+        spinner.startAnimation(animation)
     }
+
 
     private val preferenceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
